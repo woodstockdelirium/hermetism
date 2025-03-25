@@ -11,9 +11,13 @@
     body {
       font-family: 'Cinzel Decorative', serif;
       text-align: center;
-      background-color: #111;
+      background: radial-gradient(ellipse at bottom, #0d1b3a 0%, #000000 100%);
       color: #eee;
       padding: 20px;
+      overflow: hidden;
+      position: relative;
+      min-height: 100vh;
+      margin: 0;
     }
 
     iframe {
@@ -21,18 +25,75 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
+
+    .stars, .stars::before, .stars::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      animation: sparkle 2s infinite ease-in-out alternate;
+    }
+
+    .stars::before, .stars::after {
+      content: '';
+      animation-duration: 4s;
+      animation-delay: 1s;
+    }
+
+    .stars::after {
+      animation-duration: 6s;
+      animation-delay: 2s;
+    }
+
+    @keyframes sparkle {
+      from {
+        box-shadow:
+          10px 50px 2px #fff,
+          100px 120px 2px #fff,
+          250px 200px 2px #fff,
+          400px 320px 2px #fff,
+          550px 100px 2px #fff,
+          700px 250px 2px #fff,
+          850px 150px 2px #fff,
+          900px 300px 2px #fff,
+          1050px 400px 2px #fff,
+          1150px 220px 2px #fff;
+        opacity: 0.2;
+      }
+
+      to {
+        box-shadow:
+          20px 70px 3px #fff,
+          120px 140px 3px #fff,
+          270px 230px 3px #fff,
+          420px 340px 3px #fff,
+          570px 130px 3px #fff,
+          720px 280px 3px #fff,
+          870px 180px 3px #fff,
+          920px 330px 3px #fff,
+          1070px 430px 3px #fff,
+          1170px 250px 3px #fff;
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
-  <div style="text-align:center;">
-    <img src="asabove_sobelow.jpg" alt="As Above So Below" 
-      width="400" style="border-radius: 15px;">
-  </div>
-  <h1>Hermetism is a thing</h1>
-  <p>Great!</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/KwoDaRB_mDU" 
-  title="YouTube video player" frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-  </iframe>
+
+<div class="stars"></div>
+
+<div style="text-align:center; position: relative; z-index: 2;">
+  <img src="asabove_sobelow.jpg" alt="As Above So Below" width="400" style="border-radius: 15px;">
+</div>
+
+<h1 style="position: relative; z-index: 2;">Hermetism is a thing</h1>
+<p style="position: relative; z-index: 2;">Great!</p>
+
+<iframe style="position: relative; z-index: 2;" width="560" height="315" src="https://www.youtube.com/embed/KwoDaRB_mDU" 
+title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+</iframe>
+
 </body>
 </html>
