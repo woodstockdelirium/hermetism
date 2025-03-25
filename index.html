@@ -15,16 +15,9 @@
       color: #eee;
       padding: 20px;
       overflow: hidden;
+      position: relative;
+      min-height: 100vh;
       margin: 0;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
     }
 
     iframe {
@@ -35,13 +28,11 @@
 
     .content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
   </style>
 </head>
 <body>
-
-<canvas id="star-canvas"></canvas>
 
 <div class="content">
   <div style="text-align:center;">
@@ -56,46 +47,6 @@
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
   </iframe>
 </div>
-
-<script>
-  const canvas = document.getElementById('star-canvas');
-  const ctx = canvas.getContext('2d');
-  let stars = [];
-  let w, h;
-
-  function initCanvas() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-    stars = [];
-    for (let i = 0; i < 250; i++) {
-      stars.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        radius: Math.random() * 2 + 1.5,
-        alpha: Math.random() * 0.5 + 0.5,
-        delta: (Math.random() * 0.03 + 0.01)
-      });
-    }
-  }
-
-  function drawStars() {
-    ctx.clearRect(0, 0, w, h);
-    for (let star of stars) {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = rgba(255, 255, 255, ${star.alpha});
-      ctx.fill();
-
-      star.alpha += star.delta;
-      if (star.alpha <= 0.3 || star.alpha >= 1) star.delta = -star.delta;
-    }
-    requestAnimationFrame(drawStars);
-  }
-
-  window.addEventListener('resize', initCanvas);
-  initCanvas();
-  drawStars();
-</script>
 
 </body>
 </html>
