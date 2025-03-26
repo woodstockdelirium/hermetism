@@ -83,7 +83,7 @@
   const backendURL = 'https://hermetism.onrender.com'; 
 
   async function loadThreads() {
-    const res = await fetch(${backendURL}/api/threads);
+    const res = await fetch("${backendURL}/api/threads");
     const threads = await res.json();
     const list = document.getElementById('threadList');
     list.innerHTML = '';
