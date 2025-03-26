@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thread</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cinzel Decorative', serif;
+      background: radial-gradient(ellipse at center, #0d1b3a 0%, #000000 100%);
+      color: #eee;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .post {
+      background-color: rgba(255,255,255,0.05);
+      padding: 15px;
+      margin: 15px auto;
+      border-radius: 8px;
+      max-width: 700px;
+    }
+
+    form {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: none;
+      font-family: inherit;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #eee;
+      color: #0d1b3a;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="threadTitle">Loading...</h1>
+
+  <div id="postList"></div>
+
+  <form id="postForm">
+    <textarea id="content" placeholder="Write your post..." required></textarea>
+    <button type="submit">Submit Post</button>
+  </form>
+
+  <script>
+    const backendURL = 'https://your-backend.onrender.com'; // заміни на свій
+    const params = new URLSearchParams(window.location.search);
+    const threadId = params.get('id');
+
+    if (!threadId) {
+      document.body.innerHTML = '<h2 style="text-align:center">No thread ID provided</h2>';
+      throw new Error('Thread ID missing');
+    }
+
+    async function loadThread() {
+      const res = await fetch(${backendURL}/api/threads/${threadId});
+      const thread = await res.json();
+
+      document.getElementById('threadTitle').textContent = thread.title;
+
+      const postList = document.getElementById('postList');
+      postList.innerHTML = '';
+      thread.posts.forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'post';
+        div.innerHTML = 
+          <p>${post.content}</p>
+          <small>${new Date(post.createdAt).toLocaleString()}</small>
+        ;
+        postList.appendChild(div);
+      });
+    }
+
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const content = document.getElementById('content').value.trim();
+      if (!content) return;
+
+      const res = await fetch(${backendURL}/api/threads/${threadId}/posts, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+
+      if (res.ok) {
+        document.getElementById('content').value = '';
+        loadThread();
+      } else {
+        alert('Error submitting post.');
+      }
+    });
+
+    loadThread();
+  </script>
+
+</body>
+</html>
