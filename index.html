@@ -10,7 +10,6 @@
   <style>
     body {
       font-family: 'Cinzel Decorative', serif;
-      text-align: center;
       background: radial-gradient(ellipse at center, #0d1b3a 0%, #000000 100%);
       background-attachment: fixed;
       background-repeat: no-repeat;
@@ -18,11 +17,49 @@
       color: #eee;
       padding: 20px;
       margin: 0;
-      position: relative;
+    }
+
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+      gap: 40px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .mystic-button {
+      background-color: transparent;
+      border: 2px solid #eee;
+      color: #eee;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .mystic-button:hover {
+      background-color: #eee;
+      color: #0d1b3a;
+      box-shadow: 0 0 12px #eee;
+    }
+
+    img {
+      border-radius: 15px;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
     }
 
     iframe {
-      margin-top: 20px;
+      margin-top: 40px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
@@ -30,19 +67,25 @@
 </head>
 <body>
 
-<div class="content">
-  <div style="text-align:center;">
-    <img src="asabove_sobelow.jpg" alt="As Above So Below" width="400" style="border-radius: 15px;">
+  <div class="main-container">
+    <div class="button-group">
+      <button class="mystic-button">About project</button>
+      <button class="mystic-button">Concepts</button>
+      <button class="mystic-button">Some evidence</button>
+    </div>
+
+    <img src="asabove_sobelow.jpg" alt="As Above So Below">
   </div>
 
-  <h1>Hermetism is a thing</h1>
-  <p>Great!</p>
+  <h1 style="text-align:center; margin-top: 40px;">Hermetism is a thing</h1>
+  <p style="text-align:center;">Great!</p>
 
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/KwoDaRB_mDU" 
-  title="YouTube video player" frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-  </iframe>
-</div>
+  <div style="text-align:center;">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/KwoDaRB_mDU" 
+    title="YouTube video player" frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+    </iframe>
+  </div>
 
 </body>
 </html>
