@@ -2,26 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About project</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Forum Threads</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Cinzel Decorative', serif;
       background: radial-gradient(ellipse at center, #0d1b3a 0%, #000000 100%);
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-size: cover;
       color: #eee;
       padding: 20px;
       margin: 0;
     }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-family: inherit;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #eee;
+      color: #0d1b3a;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 30px auto;
+    }
+
+    li {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    li:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   </style>
 </head>
 <body>
+
+  <h1>Forum</h1>
+
+  <!-- Форма створення нової гілки -->
+  <form id="threadForm">
+    <input type="text" id="title" placeholder="Thread title" required>
+    <textarea id="content" placeholder="First post content" required></textarea>
+    <button type="submit">Create Thread</button>
+  </form>
+
+  <!-- Список гілок -->
+  <ul id="threadList"></ul>
+
+  <script>
+    const backendURL = 'https://your-backend.onrender.com'; // заміни на свій бекенд
+
+    async function loadThreads() {
+      const res = await fetch(${backendURL}/api/threads);
+      const threads = await res.json();
+      const list = document.getElementById('threadList');
+      list.innerHTML = '';
+
+      threads.forEach(thread => {
+        const li = document.createElement('li');
+        li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
+        li.onclick = () => {
+          window.location.href = thread.html?id=${thread.id};
+        };
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById('threadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      if (!title || !content) return;
+
+      const res = await fetch(${backendURL}/api/threads, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+      });
+
+      if (res.ok) {
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+        loadThreads(); // оновити список
+      } else {
+        alert('Error creating thread.');
+      }
+    });
+
+    loadThreads();
+  </script>
 
 </body>
 </html>
