@@ -15,9 +15,22 @@
       color: #eee;
       padding: 20px;
       overflow: hidden;
-      position: relative;
-      min-height: 100vh;
       margin: 0;
+      position: relative;
+    }
+
+    /* Псевдоэлемент для звёздного фона */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
     }
 
     iframe {
@@ -28,7 +41,7 @@
 
     .content {
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
   </style>
 </head>
