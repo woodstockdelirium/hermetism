@@ -80,7 +80,7 @@
   <ul id="threadList"></ul>
 
   <script>
-    const backendURL = 'https://your-backend.onrender.com'; // заміни на свій бекенд
+    const backendURL = 'https://hermetism.onrender.com'; 
 
     async function loadThreads() {
       const res = await fetch(${backendURL}/api/threads);
@@ -113,7 +113,7 @@
       if (res.ok) {
         document.getElementById('title').value = '';
         document.getElementById('content').value = '';
-        loadThreads(); // оновити список
+        loadThreads(); 
       } else {
         alert('Error creating thread.');
       }
