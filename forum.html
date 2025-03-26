@@ -89,12 +89,12 @@
     list.innerHTML = '';
 
     threads.forEach(thread => {
-      const li = document.createElement('li');
-      li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
-      li.onclick = () => {
-        window.location.href = thread.html?id=${thread.id};
-      };
-      list.appendChild(li);
+     const li = document.createElement('li');
+li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
+li.onclick = () => {
+  window.location.href = thread.html?id=${thread.id};
+};
+list.appendChild(li);
     });
   }
 
