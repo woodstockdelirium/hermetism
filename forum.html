@@ -79,48 +79,48 @@
   <!-- Список гілок -->
   <ul id="threadList"></ul>
 
- <script>
-  const backendURL = 'https://hermetism.onrender.com'; 
+  <script>
+    const backendURL = 'https://hermetism.onrender.com';
 
-  async function loadThreads() {
-    const res = await fetch("${backendURL}/api/threads");
-    const threads = await res.json();
-    const list = document.getElementById('threadList');
-    list.innerHTML = '';
+    async function loadThreads() {
+      const res = await fetch(${backendURL}/api/threads);
+      const threads = await res.json();
+      const list = document.getElementById('threadList');
+      list.innerHTML = '';
 
-    threads.forEach(thread => {
-     const li = document.createElement('li');
-li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
-li.onclick = () => {
-  window.location.href = thread.html?id=${thread.id};
-};
-list.appendChild(li);
-    });
-  }
-
-  document.getElementById('threadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const title = document.getElementById('title').value.trim();
-    const content = document.getElementById('content').value.trim();
-    if (!title || !content) return;
-
-    const res = await fetch(${backendURL}/api/threads, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content })
-    });
-
-    if (res.ok) {
-      document.getElementById('title').value = '';
-      document.getElementById('content').value = '';
-      loadThreads(); 
-    } else {
-      alert('Error creating thread.');
+      threads.forEach(thread => {
+        const li = document.createElement('li');
+        li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
+        li.onclick = () => {
+          window.location.href = thread.html?id=${thread.id};
+        };
+        list.appendChild(li);
+      });
     }
-  });
 
-  loadThreads();
-</script>
+    document.getElementById('threadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      if (!title || !content) return;
+
+      const res = await fetch(${backendURL}/api/threads, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+      });
+
+      if (res.ok) {
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+        loadThreads();
+      } else {
+        alert('Error creating thread.');
+      }
+    });
+
+    loadThreads();
+  </script>
 
 </body>
 </html>
