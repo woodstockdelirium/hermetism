@@ -13,23 +13,26 @@
       margin: 0;
     }
 
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
     h1 {
       text-align: center;
     }
 
-    .post {
-      background-color: rgba(255,255,255,0.05);
+    .post, .comment {
+      background-color: rgba(255, 255, 255, 0.05);
       padding: 15px;
-      margin: 15px auto;
+      margin-bottom: 10px;
       border-radius: 8px;
-      max-width: 700px;
     }
 
     form {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 20px;
-      background: rgba(255,255,255,0.05);
+      margin-top: 20px;
+      background-color: rgba(255,255,255,0.05);
+      padding: 15px;
       border-radius: 10px;
     }
 
@@ -37,9 +40,9 @@
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
-      border-radius: 6px;
-      border: none;
       font-family: inherit;
+      border: none;
+      border-radius: 5px;
     }
 
     button {
@@ -51,69 +54,74 @@
       cursor: pointer;
       font-weight: bold;
     }
+
+    small {
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 id="threadTitle">Loading...</h1>
+    <div class="post" id="firstPost">Please wait...</div>
 
-  <h1 id="threadTitle">Loading...</h1>
+    <h2>Comments</h2>
+    <div id="comments"></div>
 
-  <div id="postList"></div>
-
-  <form id="postForm">
-    <textarea id="content" placeholder="Write your post..." required></textarea>
-    <button type="submit">Submit Post</button>
-  </form>
+    <form id="commentForm">
+      <textarea id="commentContent" placeholder="Write a comment..." required></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+  </div>
 
   <script>
-    const backendURL = 'https://hermetism.onrender.com'; // заміни, якщо інша адреса
-    const params = new URLSearchParams(window.location.search);
-    const threadId = params.get('id');
-
-    if (!threadId) {
-      document.body.innerHTML = '<h2 style="text-align:center">No thread ID provided</h2>';
-      throw new Error('Thread ID missing');
-    }
+    const backendURL = 'https://hermetism.onrender.com';
+    const urlParams = new URLSearchParams(window.location.search);
+    const threadId = urlParams.get('id');
 
     async function loadThread() {
       const res = await fetch(${backendURL}/api/threads/${threadId});
       const thread = await res.json();
 
       document.getElementById('threadTitle').textContent = thread.title;
+      document.getElementById('firstPost').innerHTML = 
+        <div>${thread.content}</div>
+        <small>${new Date(thread.createdAt).toLocaleString()}</small>
+      ;
 
-      const postList = document.getElementById('postList');
-      postList.innerHTML = '';
-      thread.posts.forEach(post => {
+      const commentsDiv = document.getElementById('comments');
+      commentsDiv.innerHTML = '';
+      thread.comments.forEach(comment => {
         const div = document.createElement('div');
-        div.className = 'post';
+        div.className = 'comment';
         div.innerHTML = 
-          <p>${post.content}</p>
-          <small>${new Date(post.createdAt).toLocaleString()}</small>
+          <div>${comment.content}</div>
+          <small>${new Date(comment.createdAt).toLocaleString()}</small>
         ;
-        postList.appendChild(div);
+        commentsDiv.appendChild(div);
       });
     }
 
-    document.getElementById('postForm').addEventListener('submit', async (e) => {
+    document.getElementById('commentForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const content = document.getElementById('content').value.trim();
+      const content = document.getElementById('commentContent').value.trim();
       if (!content) return;
 
-      const res = await fetch(${backendURL}/api/threads/${threadId}/posts, {
+      const res = await fetch(${backendURL}/api/threads/${threadId}/comments, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content })
       });
 
       if (res.ok) {
-        document.getElementById('content').value = '';
+        document.getElementById('commentContent').value = '';
         loadThread();
       } else {
-        alert('Error submitting post.');
+        alert('Error posting comment.');
       }
     });
 
     loadThread();
   </script>
-
 </body>
 </html>
