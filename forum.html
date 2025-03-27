@@ -83,16 +83,16 @@
     const backendURL = 'https://hermetism.onrender.com';
 
     async function loadThreads() {
-      const res = await fetch(${backendURL}/api/threads);
+      const res = await fetch(`${backendURL}/api/threads`);
       const threads = await res.json();
       const list = document.getElementById('threadList');
       list.innerHTML = '';
 
       threads.forEach(thread => {
         const li = document.createElement('li');
-        li.innerHTML = <strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>;
+        li.innerHTML = `<strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>`;
         li.onclick = () => {
-          window.location.href = thread.html?id=${thread.id};
+          window.location.href = `thread.html?id=${thread.id}`;
         };
         list.appendChild(li);
       });
@@ -104,7 +104,7 @@
       const content = document.getElementById('content').value.trim();
       if (!title || !content) return;
 
-      const res = await fetch(${backendURL}/api/threads, {
+      const res = await fetch(`${backendURL}/api/threads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, content })
