@@ -90,7 +90,7 @@
 
       threads.forEach(thread => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${thread.title}</strong><br><small>${new Date(thread.createdAt).toLocaleString()}</small>`;
+        li.innerHTML = `<strong>${thread.title}</strong><br><small>${new Date(thread.created_at).toLocaleString()}</small>`;
         li.onclick = () => {
           window.location.href = `thread.html?id=${thread.id}`;
         };
