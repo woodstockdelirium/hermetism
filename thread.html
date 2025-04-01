@@ -86,7 +86,7 @@
       document.getElementById('threadTitle').textContent = thread.title;
       document.getElementById('firstPost').innerHTML = `
         <div>${thread.content}</div>
-        <small>${new Date(thread.createdAt).toLocaleString()}</small>
+        <small>${new Date(thread.created_at).toLocaleString()}</small>
       `;
 
       const commentsDiv = document.getElementById('comments');
@@ -96,7 +96,7 @@
         div.className = 'comment';
         div.innerHTML = `
           <div>${comment.content}</div>
-          <small>${new Date(comment.createdAt).toLocaleString()}</small>
+          <small>${new Date(comment.created_at).toLocaleString()}</small>
         `;
         commentsDiv.appendChild(div);
       });
