@@ -79,29 +79,28 @@
     const urlParams = new URLSearchParams(window.location.search);
     const threadId = urlParams.get('id');
 
-async function loadThread() {
-  const res = await fetch(`${backendURL}/api/threads/${threadId}`);
-  const threadData = await res.json();
-  const thread = threadData[0];
+    async function loadThread() {
+      const res = await fetch(`${backendURL}/api/threads/${threadId}`);
+      const thread = await res.json();
 
-  document.getElementById('threadTitle').textContent = thread.title;
-  document.getElementById('firstPost').innerHTML = `
-    <div>${thread.content}</div>
-    <small>${new Date(thread.createdAt).toLocaleString()}</small>
-  `;
+      document.getElementById('threadTitle').textContent = thread.title;
+      document.getElementById('firstPost').innerHTML = `
+        <div>${thread.content}</div>
+        <small>${new Date(thread.createdAt).toLocaleString()}</small>
+      `;
 
-  const commentsDiv = document.getElementById('comments');
-  commentsDiv.innerHTML = '';
-  thread.comments.forEach(comment => {
-    const div = document.createElement('div');
-    div.className = 'comment';
-    div.innerHTML = `
-      <div>${comment.content}</div>
-      <small>${new Date(comment.createdAt).toLocaleString()}</small>
-    `;
-    commentsDiv.appendChild(div);
-  });
-}
+      const commentsDiv = document.getElementById('comments');
+      commentsDiv.innerHTML = '';
+      thread.comments.forEach(comment => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `
+          <div>${comment.content}</div>
+          <small>${new Date(comment.createdAt).toLocaleString()}</small>
+        `;
+        commentsDiv.appendChild(div);
+      });
+    }
 
     document.getElementById('commentForm').addEventListener('submit', async (e) => {
       e.preventDefault();
