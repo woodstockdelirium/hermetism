@@ -87,7 +87,7 @@ async function loadThread() {
   document.getElementById('threadTitle').textContent = thread.title;
   document.getElementById('firstPost').innerHTML = `
     <div>${thread.content}</div>
-    <small>${new Date(thread.created_at).toLocaleString()}</small>
+    <small>${new Date(thread.createdAt).toLocaleString()}</small>
   `;
 
   const commentsDiv = document.getElementById('comments');
