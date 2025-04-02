@@ -96,7 +96,7 @@
         div.className = 'comment';
         div.innerHTML = `
           <div>${comment.content}</div>
-          <small>${new Date(comment.created_at).toLocaleString()}</small>
+          <small>${new Date(comment.createdAt).toLocaleString()}</small>
         `;
         commentsDiv.appendChild(div);
       });
